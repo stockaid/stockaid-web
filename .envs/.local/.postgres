@@ -1,0 +1,7 @@
+# PostgreSQL
+# ------------------------------------------------------------------------------
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=stockaid
+POSTGRES_USER=dTfFKEGVgyDBoMkgxWajyRKctSjljPYz
+POSTGRES_PASSWORD=SOgsqhDDg7SXLJ0Y3rI8ReyCGOZBHVsIWJKYv9IWMfthRG0w9AKsPajhqtinSiLp
