@@ -5,6 +5,8 @@ from django.views.generic import DetailView, RedirectView, UpdateView
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 
+from stockaid.users.models import UserProfile
+
 User = get_user_model()
 
 
@@ -18,16 +20,16 @@ class UserDetailView(LoginRequiredMixin, DetailView):
 user_detail_view = UserDetailView.as_view()
 
 
-class UserUpdateView(LoginRequiredMixin, UpdateView):
+class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
 
-    model = User
-    fields = ["name"]
+    model = UserProfile
+    fields = ["name", "title"]
 
     def get_success_url(self):
         return reverse("users:detail", kwargs={"username": self.request.user.username})
 
-    def get_object(self):
-        return User.objects.get(username=self.request.user.username)
+    def get_object(self, queryset=None):
+        return self.model.objects.get(user__username=self.request.user.username)
 
     def form_valid(self, form):
         messages.add_message(
@@ -36,7 +38,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
-user_update_view = UserUpdateView.as_view()
+user_update_view = UserProfileUpdateView.as_view()
 
 
 class UserRedirectView(LoginRequiredMixin, RedirectView):
