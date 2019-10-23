@@ -2,7 +2,7 @@ import pytest
 from django.conf import settings
 from django.test import RequestFactory
 
-from stockaid.users.views import UserRedirectView, UserUpdateView
+from stockaid.users.views import UserRedirectView, UserProfileUpdateView
 
 pytestmark = pytest.mark.django_db
 
@@ -19,7 +19,7 @@ class TestUserUpdateView:
     def test_get_success_url(
         self, user: settings.AUTH_USER_MODEL, request_factory: RequestFactory
     ):
-        view = UserUpdateView()
+        view = UserProfileUpdateView()
         request = request_factory.get("/fake-url/")
         request.user = user
 
@@ -30,13 +30,14 @@ class TestUserUpdateView:
     def test_get_object(
         self, user: settings.AUTH_USER_MODEL, request_factory: RequestFactory
     ):
-        view = UserUpdateView()
+        view = UserProfileUpdateView()
         request = request_factory.get("/fake-url/")
         request.user = user
 
         view.request = request
 
-        assert view.get_object() == user
+        assert view.get_object() == user.profile
+        assert view.get_object().user == user
 
 
 class TestUserRedirectView:
