@@ -14,10 +14,22 @@ class User(AbstractUser):
     def get_absolute_url(self):
         return reverse("users:detail", kwargs={"username": self.username})
 
+    def save(self, *args, **kwargs):
+        created = not self.pk
+        super().save(*args, **kwargs)
+
+        # User was just created so now it needs a `UserProfile` instance.
+        if created:
+            UserProfile.objects.create(user=self)
+
 
 class UserProfile(models.Model):
     """Model to contain all non-authentication data for a user."""
 
-    user = models.OneToOneField('User', on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        'User',
+        on_delete=models.CASCADE,
+        related_name='profile'
+    )
     name = models.CharField(_("Name of User"), blank=True, max_length=255)
     title = models.CharField("Job title of User", blank=True, max_length=255)
