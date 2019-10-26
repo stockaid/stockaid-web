@@ -9,8 +9,18 @@ User = get_user_model()
 
 
 class UserStampedModel(models.Model):
-    created_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-    modified_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    created_by = models.ForeignKey(
+        User,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="%(app_label)s_%(class)s_created_by",
+    )
+    updated_by = models.ForeignKey(
+        User,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="%(app_label)s_%(class)s_updated_by",
+    )
 
     class Meta:
         abstract = True
