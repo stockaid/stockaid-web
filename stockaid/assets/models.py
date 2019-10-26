@@ -39,7 +39,7 @@ class Manufacturer(TimeStampedModel, UserStampedModel, models.Model):
 
 class AssetModel(TimeStampedModel, UserStampedModel, SoftDeletableModel,
                  models.Model):
-    name = models.CharField(_("Name of asset-model"))
+    name = models.CharField(_("Name of asset-model"), max_length=255)
     description = models.TextField(_("Description of asset-model"), blank=True)
     category = models.ForeignKey("Category", on_delete=models.PROTECT)
     manufacturer = models.ForeignKey("Manufacturer", on_delete=models.PROTECT)
@@ -57,7 +57,7 @@ class Asset(TimeStampedModel, UserStampedModel, SoftDeletableModel,
         ('reserved', 'Reserved'),
     )
 
-    name = models.CharField(_("Name of asset"))
+    name = models.CharField(_("Name of asset"), max_length=255)
     description = models.TextField(_("Description of asset"), blank=True)
     code = models.CharField(_("Code specific to asset"), blank=True,
                             max_length=255)
